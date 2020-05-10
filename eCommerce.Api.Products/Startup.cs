@@ -1,13 +1,17 @@
-using eCommerce.Api.Products.Db;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
 namespace eCommerce.Api.Products
 {
+    #region <Usings>
+    using AutoMapper;
+    using eCommerce.Api.Products.Db;
+    using eCommerce.Api.Products.Interfaces;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    #endregion
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -20,6 +24,8 @@ namespace eCommerce.Api.Products
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IProductsProvider, IProductsProvider>();
+            services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<ProductsDbContext>(options =>
             {
                 options.UseInMemoryDatabase("Products");
