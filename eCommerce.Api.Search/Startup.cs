@@ -1,16 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using eCommerce.Api.Search.Interfaces;
 using eCommerce.Api.Search.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace eCommerce.Api.Search
 {
@@ -27,6 +22,12 @@ namespace eCommerce.Api.Search
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ISearchService, SearchService>();
+            services.AddScoped<IOrdersService, OrdersService>();
+
+            services.AddHttpClient("OrdersService", config =>
+            {
+                config.BaseAddress = new Uri(Configuration["Services:Orders"]);
+            });
             services.AddControllers();
         }
 
